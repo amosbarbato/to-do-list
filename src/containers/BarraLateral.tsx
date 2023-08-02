@@ -1,5 +1,8 @@
 import styled from 'styled-components'
 import { FiltroCard } from '../components/FiltroCard'
+import { RootReducer } from '../store'
+import { alteraTermo } from '../store/reducers/filtro'
+import { useDispatch, useSelector } from 'react-redux'
 
 const Aside = styled.aside`
   padding: 16px;
@@ -22,18 +25,27 @@ const Campo = styled.input`
   width: 100%;
 `
 
-export const BarraLateral = () => (
-  <Aside>
-    <div>
-      <Campo type="text" placeholder="Buscar" />
-      <Filtros>
-        <FiltroCard legenda="pendentes" contador={1} />
-        <FiltroCard legenda="concluídas" contador={2} />
-        <FiltroCard legenda="urgentes" contador={3} />
-        <FiltroCard legenda="importantes" contador={4} />
-        <FiltroCard legenda="normal" contador={5} />
-        <FiltroCard ativo legenda="todas" contador={10} />
-      </Filtros>
-    </div>
-  </Aside>
-)
+export const BarraLateral = () => {
+  const dispatch = useDispatch()
+  const { termo } = useSelector((state: RootReducer) => state.filtro)
+  return (
+    <Aside>
+      <div>
+        <Campo
+          type="text"
+          placeholder="Buscar"
+          value={termo}
+          onChange={(evento) => dispatch(alteraTermo(evento.target.value))}
+        />
+        <Filtros>
+          <FiltroCard legenda="pendentes" contador={1} />
+          <FiltroCard legenda="concluídas" contador={2} />
+          <FiltroCard legenda="urgentes" contador={3} />
+          <FiltroCard legenda="importantes" contador={4} />
+          <FiltroCard legenda="normal" contador={5} />
+          <FiltroCard ativo legenda="todas" contador={10} />
+        </Filtros>
+      </div>
+    </Aside>
+  )
+}
