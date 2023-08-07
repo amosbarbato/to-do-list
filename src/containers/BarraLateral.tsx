@@ -1,8 +1,9 @@
-import styled from 'styled-components'
+import { useDispatch, useSelector } from 'react-redux'
 import { FiltroCard } from '../components/FiltroCard'
 import { RootReducer } from '../store'
 import { alteraTermo } from '../store/reducers/filtro'
-import { useDispatch, useSelector } from 'react-redux'
+import styled from 'styled-components'
+import * as enums from '../utils/enums/tarefas'
 
 const Aside = styled.aside`
   padding: 16px;
@@ -28,6 +29,7 @@ const Campo = styled.input`
 export const BarraLateral = () => {
   const dispatch = useDispatch()
   const { termo } = useSelector((state: RootReducer) => state.filtro)
+
   return (
     <Aside>
       <div>
@@ -38,12 +40,32 @@ export const BarraLateral = () => {
           onChange={(evento) => dispatch(alteraTermo(evento.target.value))}
         />
         <Filtros>
-          <FiltroCard legenda="pendentes" contador={1} />
-          <FiltroCard legenda="concluídas" contador={2} />
-          <FiltroCard legenda="urgentes" contador={3} />
-          <FiltroCard legenda="importantes" contador={4} />
-          <FiltroCard legenda="normal" contador={5} />
-          <FiltroCard ativo legenda="todas" contador={10} />
+          <FiltroCard
+            valor={enums.Status.PENDENTE}
+            criterio="status"
+            legenda="pendentes"
+          />
+          <FiltroCard
+            valor={enums.Status.CONCLUIDA}
+            criterio="status"
+            legenda="concluídas"
+          />
+          <FiltroCard
+            valor={enums.Prioridade.URGENTE}
+            criterio="prioridade"
+            legenda="urgentes"
+          />
+          <FiltroCard
+            valor={enums.Prioridade.IMPORTANTE}
+            criterio="prioridade"
+            legenda="importantes"
+          />
+          <FiltroCard
+            valor={enums.Prioridade.NORMAL}
+            criterio="prioridade"
+            legenda="normal"
+          />
+          <FiltroCard criterio="todas" legenda="todas" />
         </Filtros>
       </div>
     </Aside>

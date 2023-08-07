@@ -1,34 +1,51 @@
-import styled from 'styled-components'
+import { useDispatch, useSelector } from 'react-redux'
+import { alteraFiltro } from '../store/reducers/filtro'
+import * as enums from '../utils/enums/tarefas'
+import { RootReducer } from '../store'
+import * as S from './filtroCardStyle'
 
-type Props = {
-  ativo?: boolean
-  contador?: number
-  legenda?: string
+export type Props = {
+  legenda: string
+  criterio: 'prioridade' | 'status' | 'todas'
+  valor?: enums.Prioridade | enums.Status
 }
 
-type PropsSemLegendaEContador = Omit<Props, 'contador' | 'legenda'>
+export const FiltroCard = ({ legenda, criterio, valor }: Props) => {
+  const dispatch = useDispatch()
+  const { filtro, tarefas } = useSelector((state: RootReducer) => state)
 
-const Card = styled.div<PropsSemLegendaEContador>`
-  padding: 8px;
-  border: 1px solid ${(props) => (props.ativo ? '#1e90ff' : '#a1a1a1')};
-  background-color: ${(props) => (props.ativo ? '#fff' : '#fcfcfc')};
-  border-radius: 8px;
-  color: ${(props) => (props.ativo ? '#1e90ff' : '#5e5e5e')};
-`
+  const verificaEstaAtivo = () => {
+    const mesmoCriterio = filtro.criterio === criterio
+    const mesmoValor = filtro.valor === valor
 
-const Contador = styled.span`
-  font-size: 24px;
-  font-weight: bold;
-  display: block;
-`
+    return mesmoCriterio && mesmoValor
+  }
 
-const Label = styled.span`
-  font-size: 14px;
-`
+  const contarTarefas = () => {
+    if (criterio === 'todas') return tarefas.itens.length
+    if (criterio === 'prioridade') {
+      return tarefas.itens.filter((item) => item.prioridade === valor).length
+    }
+    if (criterio === 'status') {
+      return tarefas.itens.filter((item) => item.status === valor).length
+    }
+  }
 
-export const FiltroCard = ({ ativo, contador, legenda }: Props) => (
-  <Card ativo={ativo}>
-    <Contador>{contador}</Contador>
-    <Label>{legenda}</Label>
-  </Card>
-)
+  const filtrar = () => {
+    dispatch(
+      alteraFiltro({
+        criterio,
+        valor
+      })
+    )
+  }
+
+  const contador = contarTarefas()
+
+  return (
+    <S.Card ativo={verificaEstaAtivo()} onClick={filtrar}>
+      <S.Contador>{contador}</S.Contador>
+      <S.Label>{legenda}</S.Label>
+    </S.Card>
+  )
+}
