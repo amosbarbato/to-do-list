@@ -1,22 +1,9 @@
 import { useSelector } from 'react-redux'
-import styled from 'styled-components'
 import { RootReducer } from '../store'
 import Tarefa from '../components/Tarefas'
+import { MainContainer, Titulo } from '../style'
 
-export const Container = styled.main`
-  padding: 0 40px;
-  height: 95vh;
-  overflow-y: scroll;
-`
-
-const Resultado = styled.p`
-  font-size: 18px;
-  font-weight: 700;
-  padding-top: 40px;
-  padding-bottom: 40px;
-`
-
-const ListaDeTarefas = () => {
+export const ListaDeTarefas = () => {
   const { itens } = useSelector((state: RootReducer) => state.tarefas)
   const { termo, criterio, valor } = useSelector(
     (state: RootReducer) => state.filtro
@@ -63,8 +50,8 @@ const ListaDeTarefas = () => {
   const mensagem = exibeMensagem(tarefas.length)
 
   return (
-    <Container>
-      <Resultado>{mensagem}</Resultado>
+    <MainContainer>
+      <Titulo>{mensagem}</Titulo>
       <ul>
         {filtraTarefas().map((t) => (
           <li key={t.titulo}>
@@ -78,8 +65,6 @@ const ListaDeTarefas = () => {
           </li>
         ))}
       </ul>
-    </Container>
+    </MainContainer>
   )
 }
-
-export default ListaDeTarefas

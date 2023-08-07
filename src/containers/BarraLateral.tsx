@@ -2,31 +2,10 @@ import { useDispatch, useSelector } from 'react-redux'
 import { FiltroCard } from '../components/FiltroCard'
 import { RootReducer } from '../store'
 import { alteraTermo } from '../store/reducers/filtro'
-import styled from 'styled-components'
 import * as enums from '../utils/enums/tarefas'
+import { Aside, Campo, Filtros } from '../style'
 
-const Aside = styled.aside`
-  padding: 16px;
-  background-color: #eee;
-  height: 100vh;
-`
-const Filtros = styled.div`
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-gap: 8px;
-  margin-top: 16px;
-`
-const Campo = styled.input`
-  padding: 8px;
-  background-color: #fff;
-  border-color: #666;
-  border-radius: 8px;
-  color: #666;
-  font-weight: bold;
-  width: 100%;
-`
-
-export const BarraLateral = () => {
+const BarraLateral = () => {
   const dispatch = useDispatch()
   const { termo } = useSelector((state: RootReducer) => state.filtro)
 
@@ -71,3 +50,5 @@ export const BarraLateral = () => {
     </Aside>
   )
 }
+
+export default BarraLateral

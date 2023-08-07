@@ -5,6 +5,7 @@ import variaveis from '../variaveis'
 import * as enums from '../utils/enums/tarefas'
 import { remover, editar } from '../store/reducers/tarefas'
 import TarefaClass from '../models/tarefa'
+import { BotaoSalvar } from '../style'
 
 type Props = TarefaClass
 
@@ -69,7 +70,7 @@ const BarraAcoes = styled.div`
   padding-top: 16px;
 `
 
-const Botao = styled.button`
+export const Botao = styled.button`
   background-color: #2f3640;
   border: none;
   border-radius: 8px;
@@ -80,9 +81,7 @@ const Botao = styled.button`
   margin-right: 8px;
   cursor: pointer;
 `
-const BotaoSalvar = styled(Botao)`
-  background-color: ${variaveis.verde};
-`
+
 const BotaoCancelarRemover = styled(Botao)`
   background-color: ${variaveis.vermelho};
 `
