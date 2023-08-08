@@ -1,6 +1,5 @@
 import styled, { createGlobalStyle } from 'styled-components'
 import variaveis from './variaveis'
-import { Botao } from './components/Tarefas'
 
 const EstiloGlobal = createGlobalStyle`
   * {
@@ -66,6 +65,18 @@ export const Filtros = styled.div`
   grid-template-columns: 1fr 1fr;
   grid-gap: 8px;
   margin-top: 16px;
+`
+
+export const Botao = styled.button`
+  background-color: #2f3640;
+  border: none;
+  border-radius: 8px;
+  color: #fff;
+  font-size: 12px;
+  font-weight: bold;
+  padding: 8px 12px;
+  margin-right: 8px;
+  cursor: pointer;
 `
 
 export const BotaoSalvar = styled(Botao)`

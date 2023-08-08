@@ -12,7 +12,6 @@ import {
 } from '../style'
 
 import * as enums from '../utils/enums/tarefas'
-import Tarefa from '../models/tarefa'
 import { cadastrar } from '../store/reducers/tarefas'
 
 const Form = styled.form`
@@ -52,15 +51,15 @@ const Formulario = () => {
 
   const cadastrarTarefa = (evento: FormEvent) => {
     evento.preventDefault()
-    const tarefaParaAdicionar = new Tarefa(
-      titulo,
-      prioridade,
-      enums.Status.PENDENTE,
-      descricao,
-      9
-    )
 
-    dispatch(cadastrar(tarefaParaAdicionar))
+    dispatch(
+      cadastrar({
+        titulo,
+        prioridade,
+        descricao,
+        status: enums.Status.PENDENTE
+      })
+    )
     navigate('/')
   }
 

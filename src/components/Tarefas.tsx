@@ -1,11 +1,11 @@
-import { useEffect, useState } from 'react'
+import { ChangeEvent, useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { styled } from 'styled-components'
 import variaveis from '../variaveis'
 import * as enums from '../utils/enums/tarefas'
-import { remover, editar } from '../store/reducers/tarefas'
+import { remover, editar, alteraStatus } from '../store/reducers/tarefas'
 import TarefaClass from '../models/tarefa'
-import { BotaoSalvar } from '../style'
+import { Botao, BotaoSalvar } from '../style'
 
 type Props = TarefaClass
 
@@ -33,12 +33,18 @@ const Card = styled.div`
   box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
   padding: 16px;
   margin-bottom: 32px;
+
+  label {
+    display: flex;
+    align-items: center;
+    margin-bottom: 16px;
+  }
 `
 
 const Titulo = styled.h3`
   font-size: 18px;
   font-weight: bold;
-  margin-bottom: 16px;
+  margin-left: 9px;
 `
 
 const Tag = styled.span<TagProps>`
@@ -70,18 +76,6 @@ const BarraAcoes = styled.div`
   padding-top: 16px;
 `
 
-export const Botao = styled.button`
-  background-color: #2f3640;
-  border: none;
-  border-radius: 8px;
-  color: #fff;
-  font-size: 12px;
-  font-weight: bold;
-  padding: 8px 12px;
-  margin-right: 8px;
-  cursor: pointer;
-`
-
 const BotaoCancelarRemover = styled(Botao)`
   background-color: ${variaveis.vermelho};
 `
@@ -108,9 +102,26 @@ const Tarefa = ({
     setDescricao(descricaoOriginal)
   }
 
+  function alteraStatusTarefa(evento: ChangeEvent<HTMLInputElement>) {
+    console.log(evento.target.checked)
+    dispatch(alteraStatus({ id, finalizado: evento.target.checked }))
+  }
+
   return (
     <Card>
-      <Titulo>{titulo}</Titulo>
+      <label htmlFor={titulo}>
+        <input
+          type="checkbox"
+          id={titulo}
+          checked={status === enums.Status.CONCLUIDA}
+          onChange={alteraStatusTarefa}
+        />
+        <Titulo>
+          {estaEditando && <em>Editando: </em>}
+          {titulo}
+        </Titulo>
+      </label>
+
       <Tag parametro="prioridade" prioridade={prioridade}>
         {prioridade}
       </Tag>
